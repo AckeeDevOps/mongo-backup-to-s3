@@ -19,7 +19,7 @@ s3cmd ls "s3://$S3_URL" > /dev/null
    echo "CRON_SCHEDULE set to default ('$CRON_SCHEDULE')"
 
 # add a cron job
-echo "$CRON_SCHEDULE root rm -rf /tmp/dump && mongodump -h '$MONGO_URL' -u '$MONGO_USER' -p '$MONGO_PASSWORD' --out /tmp/dump/ --gzip && s3cmd sync /tmp/dump s3://$S3_URL/ && rm -rf /tmp/dump" >> /etc/crontab
+echo "$CRON_SCHEDULE root rm -rf /tmp/dump && mongodump -h '$MONGO_URL' -u '$MONGO_USER' -p '$MONGO_PASSWORD' --out /tmp/dump/ --gzip >> /var/log/cron.log 2>&1 && s3cmd sync /tmp/dump s3://$S3_URL/ >> /var/log/cron.log 2>&1 && rm -rf /tmp/dump" >> /etc/crontab
 crontab /etc/crontab
 
 exec "$@"
